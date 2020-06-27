@@ -1,28 +1,41 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div v-if="!exist(currentRouteName)">
+      <SlidBar />
+    </div>
+
+  <transition name="fade" :duration="{ enter: 200, leave: 60 }">
+      <router-view />
+  </transition>
+
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import SlidBar from "./components/Sidebar/sidebar";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    SlidBar,
+  },
+  created () {
+    // console.log(this.Exist(this.currentRouteName));
+  },
+  methods: {
+    exist(nameRoute) {
+      const listRouter = ['notfound','DetailExperience'];
+      const found = listRouter.find(element => element == nameRoute);
+      if(found){
+        return true
+      }
+      return false
+    }
+  },
+  computed: {
+    currentRouteName() {
+      return this.$route.name;
+    },
+  },
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
